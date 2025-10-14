@@ -4,11 +4,11 @@ import math
 
 class InputEmbedding(nn.Module):
     
-    def __init__(self, d_model: int, vocabulary_size: int) -> None:
+    def __init__(self, d_model: int, vocab_size: int) -> None:
         super().__init__()
         self.d_model = d_model
-        self.vocabulary_size = vocabulary_size
-        self.embedding = nn.Embedding(vocabulary_size, d_model)
+        self.vocab_size = vocab_size
+        self.embedding = nn.Embedding(vocab_size, d_model)
     
     def forward(self, x):
         return self.embedding(x) * math.sqrt(self.d_model)
@@ -159,3 +159,12 @@ class Decoder(nn.Module):
         for layer in self.layers:
             x = layer(x, encoder_output, src_mask, tgt_mask)
         return self.norm(x)
+
+class ProjectionLayer(nn.Module):
+    def __init__(self, d_model: int, vocab_size):
+        super().__init__()
+        self.proj = nn.Linear(d_model, vocab_size)
+
+    def forward(self, x):
+        return torch.log_softmax(self.proj(x), dim = -1)
+    
