@@ -60,7 +60,7 @@ class MultiHeadAttentionBlock(nn.Module):
         super().__init__()
         self.d_model = d_model
         self.h = h
-        assert d_model % h == "d_model is not divisible by h"
+        assert d_model % h == 0, "d_model is not divisible by h"
         self.d_k = d_model // h
         self.w_q = nn.Linear(d_model, d_model)
         self.w_k = nn.Linear(d_model, d_model)
