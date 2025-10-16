@@ -12,6 +12,8 @@ def translate(sentence: str):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Using device:", device)
     config = get_config()
+    #tokenizer_src = Tokenizer.from_file(str(Path("/home/bape119/UMSNH/9thSemester/AILab/projects/jatzingueni/modelo-traductor-purepecha-espaniol-jatzingueni/tokenizer_es.json")))
+    #tokenizer_tgt = Tokenizer.from_file(str(Path("/home/bape119/UMSNH/9thSemester/AILab/projects/jatzingueni/modelo-traductor-purepecha-espaniol-jatzingueni/tokenizer_tsz.json")))
     tokenizer_src = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_src']))))
     tokenizer_tgt = Tokenizer.from_file(str(Path(config['tokenizer_file'].format(config['lang_tgt']))))
     model = build_transformer(tokenizer_src.get_vocab_size(), tokenizer_tgt.get_vocab_size(), config["seq_len"], config['seq_len'], d_model=config['d_model']).to(device)
@@ -76,4 +78,4 @@ def translate(sentence: str):
     return tokenizer_tgt.decode(decoder_input[0].tolist())
     
 #read sentence from argument
-translate(sys.argv[1] if len(sys.argv) > 1 else "I am not a very good a student.")
+translate(sys.argv[1] if len(sys.argv) > 1 else "¿Por qué necesitamos aguantar, pero con qué ayuda contamos?.")
